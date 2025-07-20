@@ -60,7 +60,7 @@ def func_inner_geometry(Prop):
 
     # Converging straight
 
-    InnerGeometry.r_c = 3*0.0254 # in -> m
+    InnerGeometry.r_c = r_c_in*0.0254 # in -> m
 
     r_con_f = 1*0.0254 # in -> m
 
@@ -98,15 +98,20 @@ def func_inner_geometry(Prop):
 
     # Combining geometries
 
-    x_arr = np.concatenate((x_cyl, x_con_f, x_con_s, x_con, x_div, x_par))
+    x_arr = np.concatenate((x_cyl, x_con_f, x_con_s, x_con, x_div, x_par)) - x_cyl[0]
     y_arr = np.concatenate((y_cyl, y_con_f, y_con_s, y_con, y_div, y_par))
-    y_arr_inv = -y_arr
 
-    plt.plot(x_arr, y_arr, color="orange")
-    plt.plot(x_arr, y_arr_inv, color="orange")
-    plt.xlim(-0.25, 0.15)
-    plt.ylim(-0.2, 0.2)
-    plt.show()
+    InnerGeometry.contour = np.array([x_arr, y_arr])
+    InnerGeometry.main_stations = np.array([0, L_cyl, L_cyl+x_con_all[len(x_con_all)-1]-x_con_all[0], L_cyl+x_con_all[len(x_con_all)-1]-x_con_all[0]+L_n])
+
+    plt.plot(x_arr*39.3701, y_arr*39.3701, color="orange")
+    plt.ylim([0,3.5])
+    plt.title("TCA Inner Contour")
+    plt.xlabel("Position (in)")
+    plt.ylabel("Radius (in)")
+    ax = plt.gca()
+    ax.set_aspect('equal')
+    # plt.savefig("TCA_Inner_Contour.png")
 
     return Prop, InnerGeometry
 

@@ -13,7 +13,7 @@ def func_cea(C):
     p_c_Pa = p_c * 6894.76 # psia -> Pa
 
     # CALCULATE OPTIMAL O/F RATIO
-    ofr_array = np.linspace(0.5, 2, 150)
+    ofr_array = np.linspace(1.3, 1.4, 50)
     cstar_array = np.zeros(len(ofr_array))
 
     for i in range(len(ofr_array)):
@@ -42,7 +42,12 @@ def func_cea(C):
     Prop.A_e = Prop.A_t * Prop.eps
     Prop.r_e = np.sqrt(Prop.A_e/np.pi)
     
+    # ADDITIONAL PROPERTIES
     Prop.temps = C.get_Temperatures(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)
+    Prop.gamma = np.array([C.get_Chamber_MolWt_gamma(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)[1], # Injector Face (is this same as chamber?***)
+                           C.get_Chamber_MolWt_gamma(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)[1], # Chamber
+                           C.get_Throat_MolWt_gamma(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)[1], # Nozzle Throat
+                           C.get_exit_MolWt_gamma(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)[1]]) # Nozzle Exit
 
     return Prop
 
