@@ -62,7 +62,7 @@ def func_inner_geometry(Prop):
 
     InnerGeometry.r_c = 3*0.0254 # in -> m
 
-    r_con_f = 3*0.0254 # in -> m
+    r_con_f = 1*0.0254 # in -> m
 
     y_con_s = np.linspace(InnerGeometry.r_c - (r_con_f*(1-np.sin(np.pi/4))), y_con[0], 100)
     C_con_s = y_con[0]+x_con[0]
@@ -104,8 +104,8 @@ def func_inner_geometry(Prop):
 
     plt.plot(x_arr, y_arr, color="orange")
     plt.plot(x_arr, y_arr_inv, color="orange")
-    # plt.xlim(-0.2, 0.12)
-    # plt.ylim(-0.08, 0.08)
+    plt.xlim(-0.25, 0.15)
+    plt.ylim(-0.2, 0.2)
     plt.show()
 
     return Prop, InnerGeometry

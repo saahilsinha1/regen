@@ -4,7 +4,7 @@ from input.input_variables import *
 from types import SimpleNamespace
 import numpy as np
 
-def func_cea(cea_obj):
+def func_cea(C):
 
     Prop = SimpleNamespace()
 
@@ -18,16 +18,16 @@ def func_cea(cea_obj):
 
     for i in range(len(ofr_array)):
 
-        cstar_array[i] = cea_obj.get_Cstar(Pc=p_c, MR = ofr_array[i])
+        cstar_array[i] = C.get_Cstar(Pc=p_c, MR = ofr_array[i])
 
     Prop.ofr = ofr_array[np.argmax(cstar_array)]
 
     # CALCULATE SUPERSONIC AREA RATIO
-    Prop.eps = cea_obj.get_eps_at_PcOvPe(Pc=p_c, MR=Prop.ofr, PcOvPe=p_c/p_amb)
+    Prop.eps = C.get_eps_at_PcOvPe(Pc=p_c, MR=Prop.ofr, PcOvPe=p_c/p_amb)
 
     # FIND CSTAR AND CTAU
-    cstar = cea_obj.get_Cstar(Pc=p_c, MR=Prop.ofr) # m/s
-    Ctau = cea_obj.get_PambCf(Pamb=p_amb, Pc=p_c, MR=Prop.ofr, eps=Prop.eps)[0]
+    cstar = C.get_Cstar(Pc=p_c, MR=Prop.ofr) # m/s
+    Ctau = C.get_PambCf(Pamb=p_amb, Pc=p_c, MR=Prop.ofr, eps=Prop.eps)[0]
 
     # CALCULATE MASS FLOW RATES
     Prop.mdot_prop = thrust_N/(cstar*cstar_eff*Ctau*Ctau_eff) # kg/s
@@ -41,6 +41,8 @@ def func_cea(cea_obj):
     # CALCULATE EXIT GEOMETRY
     Prop.A_e = Prop.A_t * Prop.eps
     Prop.r_e = np.sqrt(Prop.A_e/np.pi)
+    
+    Prop.temps = C.get_Temperatures(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)
 
     return Prop
 
