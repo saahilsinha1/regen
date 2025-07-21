@@ -3,9 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 
-def func_isentropic_stations(Prop, InnerGeometry):
-
-    Gas = SimpleNamespace()
+def func_isentropic_stations(Prop, Gas, InnerGeometry):
 
     # Define Stations
     stations = np.linspace(0, InnerGeometry.contour[0][len(InnerGeometry.contour[0])-1], 50)
@@ -14,7 +12,7 @@ def func_isentropic_stations(Prop, InnerGeometry):
     # Interpolate Specific Heat Ratio at each station
     gamma_stations = np.zeros(len(stations))
     for i in range(len(gamma_stations)):
-        gamma_stations[i] = np.interp(stations[i], InnerGeometry.main_stations, Prop.gamma)
+        gamma_stations[i] = np.interp(stations[i], InnerGeometry.main_stations, Gas.gamma)
     
     # Calculate Area at each station
     r_stations = np.zeros(len(stations))
@@ -41,13 +39,19 @@ def func_isentropic_stations(Prop, InnerGeometry):
     # Calculate Temperature at each station
     T_stations = np.zeros(len(stations))
     for i in range(len(T_stations)):
-        T_stations[i] = Prop.temps[1]/( 1 + ((gamma_stations[i]-1)/2)*(M_stations[i]**2) )
+        T_stations[i] = Gas.temps[1]/( 1 + ((gamma_stations[i]-1)/2)*(M_stations[i]**2) )
 
     # # Calculate Static Pressure at each station
     # P_stations = np.zeros(len(stations))
     # for i in range(len(P_stations)):
     #     P_stations[i] = 
     
+    Gas.stations = stations
+    Gas.gamma = gamma_stations
+    Gas.r_stations = r_stations
+    Gas.A_stations = A_stations
+    Gas.mach = M_stations
+    Gas.temp = T_stations
 
     return Gas
 

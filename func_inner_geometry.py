@@ -62,7 +62,7 @@ def func_inner_geometry(Prop):
 
     InnerGeometry.r_c = r_c_in*0.0254 # in -> m
 
-    r_con_f = 1*0.0254 # in -> m
+    r_con_f = 2*0.0254 # in -> m
 
     y_con_s = np.linspace(InnerGeometry.r_c - (r_con_f*(1-np.sin(np.pi/4))), y_con[0], 100)
     C_con_s = y_con[0]+x_con[0]
@@ -103,15 +103,6 @@ def func_inner_geometry(Prop):
 
     InnerGeometry.contour = np.array([x_arr, y_arr])
     InnerGeometry.main_stations = np.array([0, L_cyl, L_cyl+x_con_all[len(x_con_all)-1]-x_con_all[0], L_cyl+x_con_all[len(x_con_all)-1]-x_con_all[0]+L_n])
-
-    plt.plot(x_arr*39.3701, y_arr*39.3701, color="orange")
-    plt.ylim([0,3.5])
-    plt.title("TCA Inner Contour")
-    plt.xlabel("Position (in)")
-    plt.ylabel("Radius (in)")
-    ax = plt.gca()
-    ax.set_aspect('equal')
-    # plt.savefig("TCA_Inner_Contour.png")
 
     return Prop, InnerGeometry
 
