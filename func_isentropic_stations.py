@@ -6,7 +6,7 @@ from scipy.optimize import fsolve
 def func_isentropic_stations(Prop, Gas, InnerGeometry):
 
     # Define Stations
-    stations = np.linspace(0, InnerGeometry.contour[0][len(InnerGeometry.contour[0])-1], 50)
+    stations = np.linspace(0, InnerGeometry.contour[0][len(InnerGeometry.contour[0])-1], 100)
     
 
     # Interpolate Specific Heat Ratio at each station

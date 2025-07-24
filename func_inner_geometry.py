@@ -104,6 +104,15 @@ def func_inner_geometry(Prop):
     InnerGeometry.contour = np.array([x_arr, y_arr])
     InnerGeometry.main_stations = np.array([0, L_cyl, L_cyl+x_con_all[len(x_con_all)-1]-x_con_all[0], L_cyl+x_con_all[len(x_con_all)-1]-x_con_all[0]+L_n])
 
+    plt.figure("TCA Inner Contour")
+    plt.title("TCA Inner Contour")
+    plt.xlabel("Position (in)")
+    plt.ylabel("Radius (in)")
+    plt.plot(InnerGeometry.contour[0]*39.3701, InnerGeometry.contour[1]*39.3701, color="blue")
+    plt.plot(InnerGeometry.contour[0]*39.3701, -InnerGeometry.contour[1]*39.3701, color="blue")
+    ax = plt.gca()
+    ax.set_aspect('equal')
+
     return Prop, InnerGeometry
 
 def calc_rao_angles(Prop):

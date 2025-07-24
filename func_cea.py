@@ -22,7 +22,6 @@ def func_cea(C):
         cstar_array[i] = C.get_Cstar(Pc=p_c, MR = ofr_array[i])
 
     Prop.ofr = ofr_array[np.argmax(cstar_array)]
-    Prop.ofr = 1.25
 
     # CALCULATE SUPERSONIC AREA RATIO
     Prop.eps = C.get_eps_at_PcOvPe(Pc=p_c, MR=Prop.ofr, PcOvPe=p_c/p_amb)
@@ -56,10 +55,15 @@ def func_cea(C):
     throat_transport = C.get_Throat_Transport(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)
     exit_transport = C.get_Exit_Transport(Pc=p_c, MR=Prop.ofr, eps=Prop.eps)
 
-    Gas.Cp_vals = np.array([chamber_transport[0], chamber_transport[0], throat_transport[0], exit_transport[0]])
-    Gas.mu_vals = np.array([chamber_transport[1], chamber_transport[1], throat_transport[1], exit_transport[1]])*10
-    Gas.k_vals = np.array([chamber_transport[2], chamber_transport[2], throat_transport[2], exit_transport[2]])
-    Gas.Pr_vals = np.array([chamber_transport[3], chamber_transport[3], throat_transport[3], exit_transport[3]])
+    Gas.Cp_vals = np.array([chamber_transport[0], chamber_transport[0], throat_transport[0], exit_transport[0]]) # J/kg/K
+    Gas.mu_vals = np.array([chamber_transport[1], chamber_transport[1], throat_transport[1], exit_transport[1]])/10 # Pa s
+    Gas.k_vals = np.array([chamber_transport[2], chamber_transport[2], throat_transport[2], exit_transport[2]]) 
+    Gas.Pr_vals = np.array([chamber_transport[3], chamber_transport[3], throat_transport[3], exit_transport[3]]) # unitless
+
+    print(Gas.Cp_vals[3])
+    print(Gas.mu_vals[3])
+    print(Gas.k_vals[3])
+    print(Gas.Pr_vals[3])
 
     return Prop, Gas
 

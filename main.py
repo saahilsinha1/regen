@@ -1,5 +1,6 @@
 from rocketcea.cea_obj_w_units import CEA_Obj
 from util.eth75_card import *
+import matplotlib.pyplot as plt
 
 C = CEA_Obj(oxName='LOX', fuelName='Eth75',
                 pressure_units="psia",
@@ -20,3 +21,5 @@ Gas = func_isentropic_stations(Prop, Gas, InnerGeometry)
 
 from func_heat_transfer import func_heat_transfer
 Gas, Transport = func_heat_transfer(Prop, Gas, InnerGeometry)
+
+plt.show()
